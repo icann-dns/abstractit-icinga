@@ -19,6 +19,7 @@ class icinga::gui (
   $admin_group          = $::icinga::admin_group,
   $ro_users             = $::icinga::ro_users,
   $ro_group             = $::icinga::ro_group,
+  $manage_dbs           = $::icinga::manage_dbs,
   $manage_ssl           = $::icinga::manage_ssl,
   $gui_type             = $::icinga::gui_type,
   $nagios_plugins       = $::icinga::nagios_plugins,
@@ -108,6 +109,13 @@ class icinga::gui (
   # # need to setup an exec to clean the web cache if these files change
   # # needs to run /usr/bin/icinga-web-clearcache
   if $gui_type =~ /^(web|both)$/ {
+    if $manage_dbs {
+      exec {'create icinga-web db':
+        command => "/usr/bin/mysql -u${web_db_user} -p${web_db_pass} ${web_db_name} < /usr/share/dbconfig-common/data/icinga-web/install/mysql",
+        unless  => "/usr/bin/mysql -u${web_db_user} -p${web_db_pass} -e'show tables' ${web_db_name} | grep nsm_db_version",
+        require => Mysql::Db[$web_db_name],
+      }
+    }
     file { '/etc/icinga-web/conf.d/databases.xml':
       owner   => root,
       group   => root,
