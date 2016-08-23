@@ -15,7 +15,6 @@ class icinga (
   $ssl_cacrt                 = $::icinga::params::ssl_cacrt,
   $ssl_cypher_list           = $::icinga::params::ssl_cypher_list,
   $manage_ssl                = $::icinga::params::manage_ssl,
-  $manage_dbs                = $::icinga::params::manage_dbs,
   $manage_users              = $::icinga::params::manage_users,
   $manage_repo               = $::icinga::params::manage_repo,
   $webhostname               = $::icinga::params::webhostname,
@@ -96,7 +95,7 @@ class icinga (
   $db_options            = '^(mysql|pgsql)$'
   $auth_type_options     = '^(internal|httpbasic|ldap|none)$'
   $ldap_security_options = '^(tls|ssl|none)$'
-  
+
   unless is_ip_address($web_ip) {
     fail("\$web_ip (${web_ip}) Must be a valid ip address")
   }
@@ -111,7 +110,6 @@ class icinga (
     validate_absolute_path($ssl_cacrt)
   }
   validate_string($ssl_cypher_list)
-  validate_bool($manage_dbs)
   validate_bool($manage_users)
   validate_bool($manage_repo)
   validate_bool($manage_ssl)
@@ -119,7 +117,7 @@ class icinga (
   validate_bool($configure_firewall)
   validate_re($gui_type, $gui_options)
   #this should probably be a bool
-  validate_integer($notifications)
+  validate_bool($notifications)
   #this should probably be a bool
   validate_integer($embedded_perl)
   validate_bool($perfdata)
@@ -228,37 +226,16 @@ class icinga (
   validate_absolute_path($cgi_url)
 
   if $manage_users {
-    include icinga::users
+    include ::icinga::users
     Class['icinga::users'] -> Class['icinga::install']
   }
-  if $manage_dbs {
-    if $ido_db_server == 'mysql' {
-      include mysql::server
-      mysql::db {$ido_db_name:
-        user     => $ido_db_user,
-        host     => $ido_db_host,
-        password => $ido_db_pass,
-        grant    => ['all'],
-      }
-    }
-    if $web_db_server == 'mysql' {
-      include mysql::server
-      mysql::db {$web_db_name:
-        user     => $web_db_user,
-        host     => $web_db_host,
-        password => $web_db_pass,
-        grant    => ['all'],
-      }
-      Class['mysql::server'] -> Class['icinga::idoconfig']
-    }
-  }
 
-  include icinga::install
-  include icinga::idoconfig
-  include icinga::idoservice
-  include icinga::config
-  include icinga::nagios_resources
-  include icinga::service
+  include ::icinga::install
+  include ::icinga::idoconfig
+  include ::icinga::idoservice
+  include ::icinga::config
+  include ::icinga::nagios_resources
+  include ::icinga::service
 
 
   Class['icinga::install'] -> Class['icinga::idoconfig']
@@ -268,9 +245,9 @@ class icinga (
   Class['icinga::config'] ~> Class['icinga::service']
   Class['icinga::nagios_resources'] ~> Class['icinga::service']
 
-  include icinga::gui
+  include ::icinga::gui
 
   if ( $perfdata  and $perfdatatype =~ /^pnp4nagios$/ ) {
-    include pnp4nagios
+    include ::pnp4nagios
   }
 }

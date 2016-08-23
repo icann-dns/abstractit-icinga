@@ -8,14 +8,13 @@ class icinga::params {
   $ssl                  = true
   $ssl_cacrt            = undef
   $ssl_cypher_list      = 'ALL:!ADH:RC4+RSA:+HIGH:!MEDIUM:!LOW:!SSLv2:+SSLv3:+TLSv1:!EXP:!eNULL'
-  $manage_dbs           = true
   $manage_users         = true
   $manage_repo          = true
   $manage_ssl           = false
   $webhostname          = $::fqdn
   $configure_firewall   = true
   $gui_type             = 'classic'
-  $notifications        = 1
+  $notifications        = true
   $embedded_perl        = 0
   $perfdata             = false
   $perfdatatype         = 'pnp4nagios'

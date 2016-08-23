@@ -3,9 +3,9 @@
 # Configures the icinga gui
 
 class icinga::gui (
-  $web_ip              = $::icinga::web_ip,
-  $web_port            = $::icinga::web_port,
-  $icinga_user         = $::icinga::icinga_user,
+  $web_ip               = $::icinga::web_ip,
+  $web_port             = $::icinga::web_port,
+  $icinga_user          = $::icinga::icinga_user,
   $icinga_group         = $::icinga::icinga_group,
   $icinga_cmd_grp       = $::icinga::icinga_cmd_grp,
   $ssl                  = $::icinga::ssl,
@@ -66,7 +66,7 @@ class icinga::gui (
 
   class { '::apache::mod::prefork': }
   class { '::apache::mod::php': }
-  class { '::apache::mod::rewrite': }
+  # class { '::apache::mod::rewrite': }
   class { '::apache::mod::cgi': }
 
   if $::operatingsystem == 'Fedora' and $::operatingsystemrelease >= 18 {
@@ -78,7 +78,7 @@ class icinga::gui (
   $classic_conf    = template('icinga/etc/apache/conf.d/gui_classic_conf.erb')
   $web_conf        = template('icinga/etc/apache/conf.d/gui_web_conf.erb')
   $pnp4nagios_conf = template('icinga/etc/apache/conf.d/pnp4nagios_apache.erb')
-  
+
   file {[$web_auth_user_file, $web_auth_group_file]:
     ensure => present,
     owner  => $apache::user,
@@ -88,7 +88,7 @@ class icinga::gui (
     Class['::apache'] -> Icinga::Gui::Basic_user <| |>
     create_resources(icinga::gui::basic_user, $web_auth_users)
   }
-    
+
   if $gui_type =~ /^(classic|both)$/ {
     file { '/etc/icinga/cgi.cfg':
       owner   => $icinga_user,
@@ -190,7 +190,7 @@ class icinga::gui (
 
   if $ssl and $manage_ssl {
     if $ssl_cert_source {
-      include apache::mod::ssl
+      include ::apache::mod::ssl
 
       if !defined(File["ssl_key_${webhostname}"]) {
         file { "ssl_key_${webhostname}":
