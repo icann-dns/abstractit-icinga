@@ -66,7 +66,7 @@ class icinga::gui (
 
   class { '::apache::mod::prefork': }
   class { '::apache::mod::php': }
-  # class { '::apache::mod::rewrite': }
+  class { '::apache::mod::rewrite': }
   class { '::apache::mod::cgi': }
 
   if $::operatingsystem == 'Fedora' and $::operatingsystemrelease >= 18 {
