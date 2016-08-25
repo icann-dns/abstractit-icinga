@@ -77,7 +77,6 @@ class icinga (
   $cgi_path                  = $::icinga::params::cgi_path,
   $html_path                 = $::icinga::params::html_path,
   $css_path                  = $::icinga::params::css_path,
-  $pnp4nagios_html_path      = $::icinga::params::pnp4nagios_html_path,
   $clickatell_api_id         = $::icinga::params::clickatell_api_id,
   $clickatell_username       = $::icinga::params::clickatell_username,
   $clickatell_password       = $::icinga::params::clickatell_password,
