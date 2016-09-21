@@ -23,9 +23,11 @@ class icinga::nagios_resources (
     '/etc/nagios/nagios_timeperiod.cfg'
   ]
   file { '/etc/nagios':
-    ensure => directory,
-    owner  => $icinga_user,
-    group  => $icinga_group,
+    ensure   => directory,
+    owner    => $icinga_user,
+    group    => $icinga_group,
+    checksum => 'mtime',
+    notify   => Service['icinga'],
   }
   file {$nagios_resource_files:
     ensure => present,
