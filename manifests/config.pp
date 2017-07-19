@@ -139,9 +139,9 @@ class icinga::config {
     require => File['/var/spool/icinga'],
   }
   # This needs to be managed much better but we will hack it for now
-  file { '/var/spool/icinga/cmd/icinga.cmd':
+  file { '/var/lib/icinga/rw/icinga.cmd':
     ensure => link,
-    target => '/var/lib/icinga/rw/icinga.cmd',
+    target => '/var/spool/icinga/cmd/icinga.cmd',
   }
 
   file { '/var/run/icinga':
