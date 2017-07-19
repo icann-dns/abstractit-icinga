@@ -62,6 +62,7 @@ class icinga::gui (
   class { '::apache':
     default_vhost => false,
     mpm_module    => false,
+    group         => $icinga_cmd_grp,
   }
 
   class { '::apache::mod::prefork': }

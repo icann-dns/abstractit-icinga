@@ -143,9 +143,6 @@ class icinga::config {
     ensure => link,
     target => '/var/lib/icinga/rw/icinga.cmd',
   }
-  user { 'www-data':
-    groups => '$icinga_cmd_grp',
-  }
 
   file { '/var/run/icinga':
     ensure => directory,
