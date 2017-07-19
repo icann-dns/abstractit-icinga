@@ -136,7 +136,15 @@ class icinga::config {
     owner   => $icinga_user,
     group   => $icinga_cmd_grp,
     mode    => '2755',
-    require => File['/var/spool/icinga']
+    require => File['/var/spool/icinga'],
+  }
+  # This needs to be managed much better but we will hack it for now
+  file { '/var/spool/icinga/cmd/icinga.cmd':
+    ensure => link,
+    target => '/var/lib/icinga/rw/icinga.cmd',
+  }
+  user { 'www-data':
+    groups => '$icinga_cmd_grp',
   }
 
   file { '/var/run/icinga':
