@@ -81,7 +81,7 @@ class icinga (
   $clickatell_username       = $::icinga::params::clickatell_username,
   $clickatell_password       = $::icinga::params::clickatell_password,
   $is_pbx                    = $::icinga::params::is_pbx,
-  $pbx_mngr_pw               = $::icinga::params::pbx_mngr_pw
+  $pbx_mngr_pw               = $::icinga::params::pbx_mngr_pw,
   $enable_environment_macros = true,
 ) inherits ::icinga::params {
   #could be much better
