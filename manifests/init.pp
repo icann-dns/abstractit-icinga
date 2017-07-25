@@ -82,6 +82,7 @@ class icinga (
   $clickatell_password       = $::icinga::params::clickatell_password,
   $is_pbx                    = $::icinga::params::is_pbx,
   $pbx_mngr_pw               = $::icinga::params::pbx_mngr_pw
+  $enable_environment_macros = true,
 ) inherits ::icinga::params {
   #could be much better
   $email_regex           = '^[\w\@\.\-]+$'

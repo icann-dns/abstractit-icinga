@@ -1424,7 +1424,7 @@ use_large_installation_tweaks=0
 # Values: 1 - Enable environment variable macros
 #         0 - Disable environment variable macros (default)
 
-enable_environment_macros=0
+enable_environment_macros=<% if @enable_environment_macros %>1<% else %>0<% end %>
 
 
 
