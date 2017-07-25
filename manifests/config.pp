@@ -27,6 +27,7 @@ class icinga::config {
   $admin_pager          = $::icinga::admin_pager
   $stalking             = $::icinga::stalking
   $flap_detection       = $::icinga::flap_detection
+  $enable_environment_macros = $::icinga::enable_environment_macros
 
   $ensure_idoutils = $enable_ido? {
     default => 'file',
