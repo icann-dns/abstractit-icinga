@@ -31,14 +31,14 @@ icinga::debug: 0 # int[-1,2048]
 icinga::debug_verbosity: 2 #int[0,2]
 icinga::debug_file: /var/log/icinga/icinga.debug
 icinga::max_debug_file_size: 100000000
-icinga::admin_email: 'icanga@localhost'
+icinga::admin_email: 'icinga@localhost'
 icinga::admin_pager: 'pageicinga@localhost'
 icinga::stalking: false
 icinga::flap_detection: true
 icinga::enable_ido: true
 icinga::ido_db_server: mysql
 icinga::ido_db_host: localhost
-icinga::ido_db_port: 3360
+icinga::ido_db_port: 3306
 icinga::ido_db_name: icinga
 icinga::ido_db_user: icinga
 icinga::ido_db_pass: icinga

@@ -226,7 +226,7 @@ temp_file=<%= @temp_file %>
 # This is path where Icinga can create temp files for service and
 # host check results, etc.
 
-temp_path=<%= @tmp_path %>
+temp_path=<%= @temp_path %>
 
 
 
@@ -726,7 +726,7 @@ perfdata_timeout=<%= @perfdata_timeout %>
 # a one-time penalty, I think its well worth the additional
 # startup delay.
 
-retain_state_information=<%= @retain_state_information %>
+retain_state_information=<%= bool2int(@retain_state_information) %>
 
 
 
@@ -965,8 +965,12 @@ process_performance_data=<%= bool2int(@perfdata) %>
 # define in your host configuration file.  Read the HTML docs for
 # more information on performance data.
 
+<%- if @host_perfdata_command -%>
 host_perfdata_command=<%= @host_perfdata_command %>
+<%- end -%>
+<%- if @service_perfdata_command -%>
 service_perfdata_command=<%= @service_perfdata_command %>
+<%- end -%>
 
 
 

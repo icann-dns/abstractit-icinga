@@ -1,2 +1,2 @@
-icinga::user: nagios
-icinga::group: nagios
+icinga::icinga_user: nagios
+icinga::icinga_group: nagios
