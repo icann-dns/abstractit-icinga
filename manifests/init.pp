@@ -11,7 +11,7 @@ class icinga (
   Stdlib::Absolutepath                $cgi_url,
   Stdlib::Absolutepath                $cgi_path,
   Stdlib::Absolutepath                $html_path,
-  Stdlib::Absolutepath                $css_path,
+  Optional[Stdlib::Absolutepath]      $css_path,
   Boolean                             $ssl,
   Optional[Stdlib::Absolutepath]      $ssl_cacrt,
   String                              $ssl_cypher_list,

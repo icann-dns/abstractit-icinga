@@ -1,0 +1,2 @@
+icinga::nagios_plugins: /usr/lib64/nagios/plugins
+icinga::cgi_path: /usr/lib64/icinga/cgi

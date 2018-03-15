@@ -1,0 +1,8 @@
+icinga::nagios_plugins: /usr/lib/nagios/plugins
+icinga::cgi_path: /usr/share/icinga
+icinga::html_path: /usr/share/icinga
+icinga::css_path: ~
+icinga::pnp4nagios_html_path: /usr/share/nagios/html/pnp4nagios
+icinga::cgi_url: /icinga/cgi-bin
+icinga::web_auth_user_file: /etc/httpd/htpasswd.users
+icinga::web_auth_group_file: /etc/httpd/htpasswd.groups

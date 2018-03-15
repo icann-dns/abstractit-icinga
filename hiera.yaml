@@ -1,0 +1,17 @@
+---
+version: 4
+datadir: data
+hierarchy:
+  - name: "hardware"
+    path: "%{facts.os.family}/%{facts.os.distro.codename}.%{facts.os.hardware}.yaml"
+    backend: yaml
+  - name: "codename"
+    path: "%{facts.os.family}/%{facts.os.distro.codename}"
+    backend: yaml
+  - name: "family"
+    path: "%{facts.os.family}"
+    backend: yaml
+  - name: "common"
+    backend: yaml
+    path: "common"
+
