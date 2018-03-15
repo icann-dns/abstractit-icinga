@@ -1,19 +1,9 @@
 fixtures:
   forge_modules:
-    apache:
-      repo: "puppetlabs/apache"
-      ref: "1.4.1"
-    concat:
-      repo: "puppetlabs/concat"
-      ref:  "1.2.0"
-    stdlib:
-      repo: "puppetlabs/stdlib"
-      ref: "4.6.0"
-    pnp4nagios:
-      repo: "abstractit/pnp4nagios"
-      ref: "0.1.1"
-    apt:
-      repo: "puppetlabs/apt"
-      ref: "1.8.0"
+    apache: "puppetlabs/apache"
+    concat: "puppetlabs/concat"
+    stdlib: "puppetlabs/stdlib"
+    pnp4nagios: "abstractit/pnp4nagios"
+    apt: "puppetlabs/apt"
   symlinks:
     icinga: "#{source_dir}"

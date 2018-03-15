@@ -4,222 +4,207 @@
 # full docs in README.md
 
 class icinga (
-  $web_ip                    = $::icinga::params::web_ip,
-  $web_port                  = $::icinga::params::web_port,
-  $icinga_user               = $::icinga::params::icinga_user,
-  $icinga_group              = $::icinga::params::icinga_group,
-  $icinga_cgi_path           = $::icinga::params::icinga_cgi_path,
-  $icinga_html_path          = $::icinga::params::icinga_html_path,
-  $icinga_css_path           = $::icinga::params::icinga_css_path,
-  $ssl                       = $::icinga::params::ssl,
-  $ssl_cacrt                 = $::icinga::params::ssl_cacrt,
-  $ssl_cypher_list           = $::icinga::params::ssl_cypher_list,
-  $manage_ssl                = $::icinga::params::manage_ssl,
-  $manage_users              = $::icinga::params::manage_users,
-  $manage_repo               = $::icinga::params::manage_repo,
-  $webhostname               = $::icinga::params::webhostname,
-  $configure_firewall        = $::icinga::params::configure_firewall,
-  $gui_type                  = $::icinga::params::gui_type,
-  $notifications             = $::icinga::params::notifications,
-  $embedded_perl             = $::icinga::params::embedded_perl,
-  $perfdata                  = $::icinga::params::perfdata,
-  $perfdatatype              = $::icinga::params::perfdatatype,
-  $pnp4nagios_html_path      = $::icinga::params::pnp4nagios_html_path,
-  $admin_group               = $::icinga::params::admin_group,
-  $admin_users               = $::icinga::params::admin_users,
-  $ro_users                  = $::icinga::params::ro_users,
-  $ro_group                  = $::icinga::params::ro_group,
-  $check_timeout             = $::icinga::params::check_timeout,
-  $debug                     = $::icinga::params::debug,
-  $admin_email               = $::icinga::params::admin_email,
-  $admin_pager               = $::icinga::params::admin_pager,
-  $stalking                  = $::icinga::params::stalking,
-  $flap_detection            = $::icinga::params::flap_detection,
-  $enable_ido                = $::icinga::params::enable_ido,
-  $ido_db_server             = $::icinga::params::ido_db_server,
-  $ido_db_host               = $::icinga::params::ido_db_host,
-  $ido_db_port               = $::icinga::params::ido_db_port,
-  $ido_db_name               = $::icinga::params::ido_db_name,
-  $ido_db_user               = $::icinga::params::ido_db_user,
-  $ido_db_pass               = $::icinga::params::ido_db_pass,
-  $web_db_server             = $::icinga::params::web_db_server,
-  $web_db_host               = $::icinga::params::web_db_host,
-  $web_db_port               = $::icinga::params::web_db_port,
-  $web_db_name               = $::icinga::params::web_db_name,
-  $web_db_user               = $::icinga::params::web_db_user,
-  $web_db_pass               = $::icinga::params::web_db_pass,
-  $web_auth_type             = $::icinga::params::web_auth_type,
-  $web_auth_user_file        = $::icinga::params::web_auth_user_file,
-  $web_auth_group_file       = $::icinga::params::web_auth_group_file,
-  $web_auth_users            = $::icinga::params::web_auth_users,
-  $web_auth_name             = $::icinga::params::web_auth_name,
-  $ldap_security             = $::icinga::params::ldap_security,
-  $ldap_server               = $::icinga::params::ldap_server,
-  $ldap_firstname            = $::icinga::params::ldap_firstname,
-  $ldap_lastname             = $::icinga::params::ldap_lastname,
-  $ldap_email                = $::icinga::params::ldap_email,
-  $ldap_basedn               = $::icinga::params::ldap_basedn,
-  $ldap_groupdn              = $::icinga::params::ldap_groupdn,
-  $ldap_binddn               = $::icinga::params::ldap_binddn,
-  $ldap_bindpw               = $::icinga::params::ldap_bindpw,
-  $ldap_userattr             = $::icinga::params::ldap_userattr,
-  $ldap_groupattr            = $::icinga::params::ldap_groupattr,
-  $ldap_filter_extra         = $::icinga::params::ldap_filter_extra,
-  $ldap_auth_group           = $::icinga::params::ldap_auth_group,
-  $nagios_plugins            = $::icinga::params::nagios_plugins,
-  $nagios_extra_plugins      = $::icinga::params::nagios_extra_plugins,
-  $icinga_cmd_grp            = $::icinga::params::icinga_cmd_grp,
-  $db_password               = $::icinga::params::db_password,
-  $email_user                = $::icinga::params::email_user,
-  $email_password            = $::icinga::params::email_password,
-  $ssl_cert_source           = $::icinga::params::ssl_cert_source,
-  $cgi_url                   = $::icinga::params::cgi_url,
-  $cgi_path                  = $::icinga::params::cgi_path,
-  $html_path                 = $::icinga::params::html_path,
-  $css_path                  = $::icinga::params::css_path,
-  $clickatell_api_id         = $::icinga::params::clickatell_api_id,
-  $clickatell_username       = $::icinga::params::clickatell_username,
-  $clickatell_password       = $::icinga::params::clickatell_password,
-  $is_pbx                    = $::icinga::params::is_pbx,
-  $pbx_mngr_pw               = $::icinga::params::pbx_mngr_pw,
-  $enable_environment_macros = true,
-) inherits ::icinga::params {
-  #could be much better
-  $email_regex           = '^[\w\@\.\-]+$'
-  $host_regex            = '^[\w\.-]+$'
-  $gui_options           = '^(classic|web|both)$'
-  $db_options            = '^(mysql|pgsql)$'
-  $auth_type_options     = '^(internal|httpbasic|ldap|none)$'
-  $ldap_security_options = '^(tls|ssl|none)$'
-
-  unless is_ip_address($web_ip) {
-    fail("\$web_ip (${web_ip}) Must be a valid ip address")
-  }
-  validate_integer($web_port)
-  validate_string($icinga_user)
-  validate_string($icinga_group)
-  validate_string($icinga_cgi_path)
-  validate_string($icinga_html_path)
-  validate_string($icinga_css_path)
-  validate_bool($ssl)
-  if $ssl_cacrt {
-    validate_absolute_path($ssl_cacrt)
-  }
-  validate_string($ssl_cypher_list)
-  validate_bool($manage_users)
-  validate_bool($manage_repo)
-  validate_bool($manage_ssl)
-  validate_re($webhostname, $host_regex)
-  validate_bool($configure_firewall)
-  validate_re($gui_type, $gui_options)
-  #this should probably be a bool
-  validate_bool($notifications)
-  #this should probably be a bool
-  validate_integer($embedded_perl)
-  validate_bool($perfdata)
-  validate_string($perfdatatype)
-  validate_string($pnp4nagios_html_path)
-  if $admin_group {
-    validate_string($admin_group)
-  }
-  if $admin_users {
-    validate_string($admin_users)
-  }
-  if $ro_users {
-    validate_string($ro_users)
-  }
-  if $ro_group {
-    validate_string($ro_group)
-  }
-  validate_integer($check_timeout)
-  #this should probably be a bool
-  validate_integer($debug)
-  validate_re($admin_email, $email_regex)
-  validate_re($admin_pager, $email_regex)
-  #this should probably be a bool
-  validate_integer($stalking)
-  #this should probably be a bool
-  validate_integer($flap_detection)
-  validate_bool($enable_ido)
-  validate_re($ido_db_server, $db_options)
-  validate_re($ido_db_host, $host_regex)
-  validate_integer($ido_db_port)
-  validate_string($ido_db_name)
-  validate_string($ido_db_user)
-  validate_string($ido_db_pass)
-  validate_re($web_db_server, $db_options)
-  validate_re($web_db_host, $host_regex)
-  validate_integer($web_db_port)
-  validate_string($web_db_name)
-  validate_string($web_db_user)
-  validate_string($web_db_pass)
-  validate_re($web_auth_type, $auth_type_options)
-  validate_string($web_auth_name)
-  validate_absolute_path($web_auth_user_file)
-  validate_absolute_path($web_auth_group_file)
-  validate_hash($web_auth_users)
-  validate_re($ldap_security, $ldap_security_options)
-  validate_re($ldap_server, $host_regex)
-  validate_string($ldap_firstname)
-  validate_string($ldap_lastname)
-  validate_string($ldap_email)
-  if $ldap_basedn {
-    validate_string($ldap_basedn)
-  }
-  if $ldap_groupdn {
-    validate_string($ldap_groupdn)
-  }
-  if $ldap_binddn {
-    validate_string($ldap_binddn)
-  }
-  if $ldap_bindpw {
-    validate_string($ldap_bindpw)
-  }
-  validate_string($ldap_userattr)
-  validate_string($ldap_groupattr)
-  if $ldap_filter_extra {
-    validate_string($ldap_filter_extra)
-  }
-  if $ldap_auth_group {
-    validate_string($ldap_auth_group)
-  }
-  validate_absolute_path($nagios_plugins)
-  if $nagios_extra_plugins {
-    validate_absolute_path($nagios_extra_plugins)
-  }
-  validate_string($icinga_cmd_grp)
-  if $db_password {
-    validate_string($db_password)
-  }
-  if $email_user {
-    validate_string($email_user)
-  }
-  if $email_password {
-    validate_string($email_password)
-  }
-  if $ssl_cert_source {
-    validate_absolute_path($ssl_cert_source)
-  }
-  if $clickatell_api_id {
-    validate_string($clickatell_api_id)
-  }
-  if $clickatell_username {
-    validate_string($clickatell_username)
-  }
-  if $clickatell_password {
-    validate_string($clickatell_password)
-  }
-  validate_bool($is_pbx)
-  if $pbx_mngr_pw {
-    validate_($pbx_mngr_pw)
-  }
-  validate_absolute_path($cgi_path)
-  validate_absolute_path($html_path)
-  if $css_path {
-    validate_absolute_path($css_path)
-  }
-  validate_absolute_path($pnp4nagios_html_path)
-  validate_absolute_path($cgi_url)
+  Stdlib::Ip_address                  $web_ip,
+  Stdlib::Port                        $web_port,
+  String                              $icinga_user,
+  String                              $icinga_group,
+  Stdlib::Absolutepath                $cgi_url,
+  Stdlib::Absolutepath                $cgi_path,
+  Stdlib::Absolutepath                $html_path,
+  Stdlib::Absolutepath                $css_path,
+  Boolean                             $ssl,
+  Optional[Stdlib::Absolutepath]      $ssl_cacrt,
+  String                              $ssl_cypher_list,
+  Boolean                             $manage_ssl,
+  Boolean                             $manage_dbs,
+  Boolean                             $manage_users,
+  Boolean                             $manage_repo,
+  Stdlib::Host                        $webhostname,
+  Boolean                             $configure_firewall,
+  Enum['classic', 'web', 'both']      $gui_type,
+  Boolean                             $notifications,
+  Boolean                             $embedded_perl,
+  Boolean                             $perfdata,
+  String                              $perfdatatype,
+  Stdlib::Absolutepath                $pnp4nagios_html_path,
+  Optional[String]                    $admin_group,
+  Optional[String]                    $admin_users,
+  Optional[String]                    $ro_users,
+  Optional[String]                    $ro_group,
+  Integer[0]                          $check_timeout,
+  Integer[-1,2048]                    $debug,
+  Integer[0,2]                        $debug_verbosity,
+  Stdlib::Absolutepath                $debug_file,
+  Integer                             $max_debug_file_size,
+  Pattern[/^[\w\@\.\-]+$/]            $admin_email,
+  Pattern[/^[\w\@\.\-]+$/]            $admin_pager,
+  Boolean                             $stalking,
+  Boolean                             $flap_detection,
+  Boolean                             $enable_ido,
+  Enum['mysql', 'pgsql']              $ido_db_server,
+  Stdlib::Host                        $ido_db_host,
+  Stdlib::Port                        $ido_db_port,
+  String                              $ido_db_name,
+  String                              $ido_db_user,
+  String                              $ido_db_pass,
+  Enum['mysql', 'pgsql']              $web_db_server,
+  Stdlib::Host                        $web_db_host,
+  Stdlib::Port                        $web_db_port,
+  String                              $web_db_name,
+  String                              $web_db_user,
+  String                              $web_db_pass,
+  Stdlib::Absolutepath                $web_auth_user_file,
+  Stdlib::Absolutepath                $web_auth_group_file,
+  Optional[Hash]                      $web_auth_users,
+  String                              $web_auth_name,
+  Enum['tls', 'ssl', 'none']          $ldap_security,
+  Stdlib::Host                        $ldap_server,
+  String                              $ldap_firstname,
+  String                              $ldap_lastname,
+  Pattern[/^[\w\@\.\-]+$/]            $ldap_email,
+  Optional[String]                    $ldap_basedn,
+  Optional[String]                    $ldap_groupdn,
+  Optional[String]                    $ldap_binddn,
+  Optional[String]                    $ldap_bindpw,
+  String                              $ldap_userattr,
+  String                              $ldap_groupattr,
+  Optional[String]                    $ldap_filter_extra,
+  Optional[String]                    $ldap_auth_group,
+  Stdlib::Absolutepath                $nagios_plugins,
+  Optional[Stdlib::Absolutepath]      $nagios_extra_plugins,
+  String                              $icinga_cmd_grp,
+  Optional[String]                    $db_password,
+  Optional[String]                    $email_user,
+  Optional[String]                    $email_password,
+  Optional[Stdlib::Filesource]        $ssl_cert_source,
+  Optional[String]                    $clickatell_api_id,
+  Optional[String]                    $clickatell_username,
+  Optional[String]                    $clickatell_password,
+  Boolean                             $is_pbx,
+  Optional[String]                    $pbx_mngr_pw,
+  Boolean                             $enable_environment_macros,
+  Stdlib::Absolutepath                $logfile,
+  Array[Stdlib::Absolutepath]         $extra_cfg_files,
+  Array[Stdlib::Absolutepath]         $extra_cfg_dirs,
+  Stdlib::Absolutepath                $object_cache_file,
+  Stdlib::Absolutepath                $precached_object_file,
+  Stdlib::Absolutepath                $resource_file,
+  Stdlib::Absolutepath                $status_file,
+  Integer[1]                          $status_update_interval,
+  Boolean                             $check_external_commands,
+  Stdlib::Absolutepath                $command_file,
+  Integer[1]                          $external_command_buffer_slots,
+  Stdlib::Absolutepath                $lock_file,
+  Stdlib::Absolutepath                $temp_file,
+  Stdlib::Absolutepath                $temp_path,
+  Integer[-1]                         $event_broker_options,
+  Enum['n', 'h', 'd', 'w', 'm']       $log_rotation_method,
+  Stdlib::Absolutepath                $log_archive_path,
+  Boolean                             $use_daemon_log,
+  Boolean                             $use_syslog,
+  Boolean                             $use_syslog_local_facility,
+  Integer[0,7]                        $syslog_local_facility,
+  Boolean                             $log_notifications,
+  Boolean                             $log_service_retries,
+  Boolean                             $log_host_retries,
+  Boolean                             $log_event_handlers,
+  Boolean                             $log_initial_states,
+  Boolean                             $log_current_states,
+  Boolean                             $log_external_commands,
+  Boolean                             $log_passive_checks,
+  Boolean                             $log_long_plugin_output,
+  Variant[Enum['n', 'd', 's'], Float] $service_inter_check_delay_method,
+  Integer[1]                          $max_service_check_spread,
+  Variant[Enum['s'], Integer]         $service_interleave_factor,
+  Variant[Enum['n', 'd', 's'], Float] $host_inter_check_delay_method,
+  Integer[1]                          $max_host_check_spread,
+  Integer[0]                          $max_concurrent_checks,
+  Integer[1]                          $check_result_reaper_frequency,
+  Integer[1]                          $max_check_result_reaper_time,
+  Stdlib::Absolutepath                $check_result_path,
+  Integer[1]                          $max_check_result_file_age,
+  Optional[Integer[0]]                $max_check_result_list_items,
+  Integer[1]                          $cached_host_check_horizon,
+  Integer[1]                          $cached_service_check_horizon,
+  Boolean                             $enable_predictive_host_dependency_checks,
+  Boolean                             $enable_predictive_service_dependency_checks,
+  Boolean                             $soft_state_dependencies,
+  Boolean                             $auto_reschedule_checks,
+  Integer[1]                          $auto_rescheduling_interval,
+  Integer[1]                          $auto_rescheduling_window,
+  Float                               $sleep_time,
+  Integer[1]                          $host_check_timeout,
+  Integer[1]                          $event_handler_timeout,
+  Integer[1]                          $notification_timeout,
+  Integer[1]                          $ocsp_timeout,
+  Integer[1]                          $perfdata_timeout,
+  Boolean                             $retain_state_information,
+  Stdlib::Absolutepath                $state_retention_file,
+  Optional[Stdlib::Absolutepath]      $sync_retention_file,
+  Integer[1]                          $retention_update_interval,
+  Boolean                             $use_retained_program_state,
+  Boolean                             $dump_retained_host_service_states_to_neb,
+  Boolean                             $use_retained_scheduling_info,
+  Integer[0]                          $retained_host_attribute_mask,
+  Integer[0]                          $retained_service_attribute_mask,
+  Integer[0]                          $retained_process_host_attribute_mask,
+  Integer[0]                          $retained_process_service_attribute_mask,
+  Integer[0]                          $retained_contact_host_attribute_mask,
+  Integer[0]                          $retained_contact_service_attribute_mask,
+  Integer[1]                          $interval_length,
+  Boolean                             $use_aggressive_host_checking,
+  Boolean                             $execute_service_checks,
+  Boolean                             $accept_passive_service_checks,
+  Boolean                             $execute_host_checks,
+  Boolean                             $accept_passive_host_checks,
+  Boolean                             $enable_event_handlers,
+  Boolean                             $enable_state_based_escalation_ranges,
+  Optional[String]                    $host_perfdata_command,
+  Optional[String]                    $service_perfdata_command,
+  Optional[Stdlib::Absolutepath]      $host_perfdata_file,
+  Optional[Stdlib::Absolutepath]      $service_perfdata_file,
+  Optional[String]                    $host_perfdata_file_template,
+  Optional[String]                    $service_perfdata_file_template,
+  Optional[Enum['w', 'p', 'a']]       $host_perfdata_file_mode,
+  Optional[Enum['w', 'p', 'a']]       $service_perfdata_file_mode,
+  Optional[String]                    $host_perfdata_file_processing_interval,
+  Optional[String]                    $service_perfdata_file_processing_interval,
+  Optional[String]                    $host_perfdata_file_processing_command,
+  Optional[String]                    $service_perfdata_file_processing_command,
+  Boolean                             $host_perfdata_process_empty_results,
+  Boolean                             $service_perfdata_process_empty_results,
+  Boolean                             $allow_empty_hostgroup_assignment,
+  Boolean                             $obsess_over_services,
+  Optional[String]                    $ocsp_command,
+  Boolean                             $obsess_over_hosts,
+  Optional[String]                    $ochp_command,
+  Boolean                             $translate_passive_host_checks,
+  Boolean                             $passive_host_checks_are_soft,
+  Boolean                             $check_for_orphaned_services,
+  Boolean                             $check_for_orphaned_hosts,
+  Enum['c', 'w', 'u', 'o']            $service_check_timeout_state,
+  Boolean                             $check_service_freshness,
+  Integer[1]                          $service_freshness_check_interval,
+  Boolean                             $check_host_freshness,
+  Integer[1]                          $host_freshness_check_interval,
+  Integer[1]                          $additional_freshness_latency,
+  Float                               $low_service_flap_threshold,
+  Float                               $high_service_flap_threshold,
+  Float                               $low_host_flap_threshold,
+  Float                               $high_host_flap_threshold,
+  String                              $date_format,
+  Stdlib::Absolutepath                $p1_file,
+  Boolean                             $use_embedded_perl_implicitly,
+  Boolean                             $keep_unknown_macros,
+  Boolean                             $use_regexp_matching,
+  Boolean                             $use_true_regexp_matching,
+  Boolean                             $daemon_dumps_core,
+  Boolean                             $use_large_installation_tweaks,
+  Boolean                             $child_processes_fork_twice,
+  Boolean                             $event_profiling_enabled,
+  Variant[Integer[-1], Pattern[/\ds?/]]         $command_check_interval,
+  Enum['internal', 'httpbasic', 'ldap', 'none'] $web_auth_type,
+) {
 
   if $manage_users {
     include ::icinga::users

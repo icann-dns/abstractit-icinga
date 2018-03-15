@@ -66,10 +66,10 @@ class icinga::gui (
     manage_group  => false,
   }
 
-  class { '::apache::mod::prefork': }
-  class { '::apache::mod::php': }
-  class { '::apache::mod::rewrite': }
-  class { '::apache::mod::cgi': }
+  include ::apache::mod::prefork
+  include ::apache::mod::php
+  include ::apache::mod::rewrite
+  include ::apache::mod::cgi
 
   if $::operatingsystem == 'Fedora' and $::operatingsystemrelease >= 18 {
     $apache_allow_stanza = "    Require all granted\n"
