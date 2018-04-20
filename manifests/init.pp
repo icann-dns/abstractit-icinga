@@ -221,6 +221,7 @@ class icinga (
 
   Class['icinga::install'] -> Class['icinga::idoconfig']
   Class['icinga::install'] -> Class['icinga::gui']
+  Class['icinga::install'] -> Class['icinga::config']
   Class['icinga::idoconfig'] ~> Class['icinga::idoservice']
 
   Class['icinga::config'] ~> Class['icinga::service']
