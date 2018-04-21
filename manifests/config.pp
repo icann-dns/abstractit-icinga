@@ -30,6 +30,7 @@ class icinga::config {
   $admin_pager          = $::icinga::admin_pager
   $stalking             = $::icinga::stalking
   $flap_detection       = $::icinga::flap_detection
+  $gui_type             = $::icinga::gui_type
   $enable_environment_macros = $::icinga::enable_environment_macros
   $logfile                                  = $icinga::logfile
   $extra_cfg_files                          = $icinga::extra_cfg_files
@@ -160,6 +161,13 @@ class icinga::config {
   $ensure_perf_mod = $perfdata? {
     default => 'file',
     false => 'absent',
+  }
+  if $gui_type != 'web' {
+    file{ '/etc/icinga-web':
+      ensure  => directory,
+      group   => $icinga_cmd_grp,
+      recurse => true,
+    }
   }
 
   file { '/etc/default/icinga':
