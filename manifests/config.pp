@@ -162,7 +162,7 @@ class icinga::config {
     default => 'file',
     false => 'absent',
   }
-  if $gui_type != 'web' {
+  if $gui_type != 'classic' {
     file{ '/etc/icinga-web':
       ensure  => directory,
       group   => $icinga_cmd_grp,
